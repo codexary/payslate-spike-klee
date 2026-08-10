@@ -1,0 +1,9 @@
+aba-convert.c is copied verbatim from payslate's legacy/aba-convert as it stood on
+the day of this spike: the converter reads the whole input once and writes only
+after the control trailer reconciles. It is one file; the parse-and-reconcile loop
+lives inside main.
+
+reader.h / reader.c are this spike's own work: the same parse-and-reconcile logic
+factored into a buffer function (read_batch) that takes bytes instead of a file, so
+KLEE can call it directly. Splitting the reader out this way is what let KLEE run on
+it, and the same split is worth making in payslate's converter.
