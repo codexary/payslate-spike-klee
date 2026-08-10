@@ -18,6 +18,8 @@ Everything runs in the official KLEE image (`klee/klee:v3.2`), which is amd64
 only, so it runs under emulation on Apple-silicon machines. No times are reported;
 the numbers that matter are path and test counts.
 
+The path-count comparison and the conclusions are in [FINDINGS.md](FINDINGS.md).
+
 ## About this repository
 
 Elsworne, Payslate and the team are fictional.

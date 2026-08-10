@@ -12,6 +12,8 @@ sh run.sh 1      # 在一条记录上对玩具读取函数跑 KLEE，并打印�
 
 全部在官方 KLEE 镜像（`klee/klee:v3.2`）里运行；该镜像只有 amd64，在 Apple 芯片上通过模拟运行。不记录任何时间，重要的是路径数与测试数。
 
+路径数对比与结论见 [FINDINGS.zh-CN.md](FINDINGS.zh-CN.md)。
+
 ## 关于本仓库
 
 Elsworne、Payslate 和团队成员均为虚构。
