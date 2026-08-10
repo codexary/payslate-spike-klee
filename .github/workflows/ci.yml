@@ -1,0 +1,28 @@
+name: CI
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  klee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: KLEE over the toy reader at one record
+        # The KLEE image runs as a non-root user; mount the checkout read-only and
+        # build, run and check entirely under /tmp so nothing is written to the
+        # runner-owned work directory (which would be Permission denied).
+        run: |
+          docker run --rm --platform linux/amd64 -v "$PWD:/src:ro" \
+            klee/klee@sha256:6c9e7276b9ddf0e02af23b7d49cd7792a698824eb4ab3fdca3f35b2a7171e40e sh -c '
+              cp /src/toy.c /tmp/toy.c
+              cd /tmp
+              clang -emit-llvm -c -g -O0 -Xclang -disable-O0-optnone -DNREC=1 toy.c -o toy.bc
+              klee --output-dir=klee-out toy.bc
+              test -s klee-out/test000001.ktest
+            '
